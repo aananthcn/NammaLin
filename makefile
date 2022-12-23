@@ -25,7 +25,7 @@ AR=${COMPILER}ar
 RANLIB=${COMPILER}ranlib
 OBJCOPY=${COMPILER}objcopy
 
-include ${ROOT_DIR}/app_paths.mk
+
 include ${ROOT_DIR}/path_defs.mk
 
 
@@ -37,7 +37,7 @@ INCDIRS  += -I ${LIN_PATH}/src \
 	    -I ${MCU_PATH}/src/common \
 	    -I ${MCU_PATH}/src/common/api \
 	    -I ${MCU_PATH}/src/common/src \
-	    -I ${MCU_MICRO_PATH} \
+	    -I ${MCU_STARTUP_PATH} \
 
 
 $(info compiling Lin source files)
