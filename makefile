@@ -40,6 +40,7 @@ INCDIRS  += -I ${LIN_PATH}/src \
 	    -I ${MCU_STARTUP_PATH} \
 
 
+$(info  )
 $(info compiling Lin source files)
 
 
