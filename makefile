@@ -48,7 +48,7 @@ LIN_OBJS := \
 	${LIN_PATH}/cfg/Lin_cfg.o
 
 
-LDFLAGS := -g
+LDFLAGS := -g -relocatable
 CFLAGS  := -Werror ${INCDIRS} -g
 ASFLAGS := ${INCDIRS} -g
 TARGET 	:= libLin.la
@@ -60,8 +60,7 @@ all: $(TARGET)
 LIB_OBJS := $(LIN_OBJS)
 
 $(TARGET): $(LIB_OBJS)
-	$(AR) r $@ $^
-	$(RANLIB) $@
+	$(LD) ${LDFLAGS} -o $@ $^
 
 clean:
 	$(RM) $(LIB_OBJS) $(TARGET)
