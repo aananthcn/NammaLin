@@ -26,17 +26,18 @@ RANLIB=${COMPILER}ranlib
 OBJCOPY=${COMPILER}objcopy
 
 
-include ${CAR_OS_PATH}/path_defs.mk
+include ${ROOT_DIR}/path_defs.mk
 
 
 INCDIRS  += -I ${LIN_PATH}/src \
 	    -I ${LIN_PATH}/api	\
 	    -I ${LIN_PATH}/cfg \
 	    -I ${LIN_PATH}/src/bsp/ \
-	    -I ${CAR_OS_INC_PATH}/autosar \
-	    -I ${CAR_OS_INC_PATH}/car_os \
-	    -I ${CAR_OS_BOARDSOC_PATH} \
- 	    -I ${MCU_PATH}/src
+ 	    -I ${MCU_PATH}/src \
+	    -I ${MCU_PATH}/src/common \
+	    -I ${MCU_PATH}/src/common/api \
+	    -I ${MCU_PATH}/src/common/src \
+	    -I ${MCU_STARTUP_PATH} \
 
 
 $(info  )
@@ -48,26 +49,19 @@ LIN_OBJS := \
 	${LIN_PATH}/cfg/Lin_cfg.o
 
 
-# LDFLAGS := -g -relocatable
-# CFLAGS  := -Werror ${INCDIRS} -g
-# ASFLAGS := ${INCDIRS} -g
-TARGET 	:= libLin.a
+LDFLAGS := -g -relocatable
+CFLAGS  := -Werror ${INCDIRS} -g
+ASFLAGS := ${INCDIRS} -g
+TARGET 	:= libLin.la
 # include c_l_flags.mk to add more definitions specific to micro-controller
-include ${CAR_OS_PATH}/c_l_flags.mk
-
-
-%.o: %.c
-	$(CC) -c ${CFLAGS} ${INCDIRS} $< -o $@
-
+include ${ROOT_DIR}/c_l_flags.mk
 
 all: $(TARGET)
 
 LIB_OBJS := $(LIN_OBJS)
 
 $(TARGET): $(LIB_OBJS)
-	$(AR) -rcs ${TARGET} ${LIB_OBJS}
-
-#	$(LD) ${LDFLAGS} -o $@ $^
+	$(LD) ${LDFLAGS} -o $@ $^
 
 clean:
 	$(RM) $(LIB_OBJS) $(TARGET)
