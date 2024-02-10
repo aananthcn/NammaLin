@@ -18,13 +18,15 @@
  * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+#include <stddef.h>
+
 #include <Lin.h>
 #include <Lin_cfg.h>
 
 /**********************************************************/
 /***					GLOBAL VARIABLES				***/
 /**********************************************************/
-static Lin_ConfigType LinConfigs[LIN_DRIVER_MAX_CHANNEL];
+// static Lin_ConfigType LinConfigs[LIN_DRIVER_MAX_CHANNEL];
 
 static Lin_Module_State_Type Lin_Module_State = LIN_UNINIT;
 static Lin_StatusType Lin_Driver_state[LIN_DRIVER_MAX_CHANNEL];
@@ -183,12 +185,6 @@ Std_ReturnType Lin_SendFrame(uint8 Channel, const Lin_PduType* PduInfoPtr) {
 	Lin_FrameResponseType fl_drc;
 	Lin_FrameDlType fl_Dl;
 
-	fl_Pid = PduInfoPtr->Pid;
-	fl_cs_model = PduInfoPtr->Cs;
-	fl_drc = PduInfoPtr->Drc;
-	fl_Dl = PduInfoPtr->Dl;
-	
-
 	/*Check for the LIN Node Type as Master */
 	if(fl_Lin_Node != MASTER)
 	{
@@ -215,7 +211,7 @@ Std_ReturnType Lin_SendFrame(uint8 Channel, const Lin_PduType* PduInfoPtr) {
 	 	}
 
 		/* Check for the parameter is a NULL pointer */
-		if(&PduInfoPtr == NULL)
+		if(PduInfoPtr == NULL)
 		{
 			/*Report error with the error code parameter - Lin_Error_code */
 			Lin_Error_code = LIN_E_INVALID_POINTER;
@@ -231,6 +227,10 @@ Std_ReturnType Lin_SendFrame(uint8 Channel, const Lin_PduType* PduInfoPtr) {
 		}
 	}
 
+	fl_Pid = PduInfoPtr->Pid;
+	fl_cs_model = PduInfoPtr->Cs;
+	fl_drc = PduInfoPtr->Drc;
+	fl_Dl = PduInfoPtr->Dl;
 	/*UART Tx - LIN Header - Break field, Synch byte, pid
 
 	if( LinDriverstate[Channel] == LIN_TX_BUSY || LIN_TX_ERROR || LIN_RX_BUSY || LIN_RX_ERROR)
@@ -355,6 +355,8 @@ Std_ReturnType Lin_GoToSleep(uint8 Channel) {
 	fl_Lin_error_status = E_OK;
 	return fl_Lin_error_status;
 }
+
+
 
 Std_ReturnType Lin_GoToSleepInternal(uint8 Channel) {
 
