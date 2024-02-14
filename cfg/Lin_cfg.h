@@ -9,10 +9,10 @@
 
 
 typedef struct {
+    uint16 lin_timeout_sec;
     uint8 lin_index;
     boolean lin_dev_error_detect;
     boolean lin_version_info_api;
-    uint16 lin_timeout_sec;
 } LinGeneralCfgType;
 
 
